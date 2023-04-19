@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { countListState, countState } from './store';
+import { useRecoilState } from 'recoil';
+import { countStateFamily } from './store';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -25,16 +25,9 @@ function App() {
 export default App;
 
 function CountCardContainer({ id }: { id: number }) {
-  const count = useRecoilValue(countState(id));
-  const setCountList = useSetRecoilState(countListState);
+  const [count, setCount] = useRecoilState(countStateFamily(id));
 
-  const handleClick = useCallback(
-    () =>
-      setCountList((prev) =>
-        prev.map((count, i) => (id === i ? count + 1 : count))
-      ),
-    []
-  );
+  const handleClick = useCallback(() => setCount((prev) => prev + 1), []);
   return <CountCard count={count} onClick={handleClick} />;
 }
 
